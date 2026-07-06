@@ -7,7 +7,7 @@ def email_valido(email):
         return False
     if "@" not in email:
         return False
-    partes = email.strip().split("@")
+    partes = email.strip().split("@") # split(separa em duas partes)
     if len(partes) != 2 or "." not in partes[1]:
         return False
     return True
@@ -23,7 +23,7 @@ def data_valida(texto):
     if not texto:
         return False
     try:
-        date.fromisoformat(texto)
+        date.fromisoformat(texto) # date.fromisoformat converte a string para data
         return True
     except ValueError:
         return False
@@ -36,19 +36,19 @@ def valor_valido(valor, minimo=0):
 
 
 def validar_cliente(cliente):
-    erros = []
+    erros = [] 
     if not cliente.get("nome", "").strip():
-        erros.append("nome vazio")
+        erros.append("nome vazio") # append(adiciona) na lista de erros
     if not email_valido(cliente.get("email")):
         erros.append(f"email inválido: '{cliente.get('email')}'")
     if not idade_valida(cliente.get("idade")):
         erros.append(f"idade inválida: {cliente.get('idade')}")
     if not data_valida(cliente.get("data_cadastro")):
         erros.append(f"data inválida: '{cliente.get('data_cadastro')}'")
-    return erros
+    return erros 
 
 
-def validar_transacao(transacao, ids_clientes, config):
+def validar_transacao(transacao, ids_clientes, config): 
     erros = []
     if transacao.get("cliente_id") not in ids_clientes:
         erros.append(f"cliente_id inexistente: {transacao.get('cliente_id')}")
@@ -63,13 +63,13 @@ def validar_transacao(transacao, ids_clientes, config):
     return erros
 
 
-def separar_registros(registros, funcao_validar, **kwargs):
+def separar_registros(registros, funcao_validar, **kwargs): # **kwargs coisas extras (ids, config)
     validos = []
     invalidos = []
     for registro in registros:
-        erros = funcao_validar(registro, **kwargs)
+        erros = funcao_validar(registro, **kwargs) 
         if erros:
             invalidos.append({"registro": registro, "erros": erros})
         else:
             validos.append(registro)
-    return validos, invalidos
+    return validos, invalidos 

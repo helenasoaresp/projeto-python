@@ -3,20 +3,20 @@ import unicodedata
 
 
 def _remover_acentos(texto):
-    nfkd = unicodedata.normalize("NFKD", texto)
-    return "".join(c for c in nfkd if not unicodedata.combining(c))
+    nfkd = unicodedata.normalize("NFKD", texto) # unicodedata.normalize normaliza o texto para remover acentos e outros caracteres especiais
+    return "".join(c for c in nfkd if not unicodedata.combining(c)) # separa os acentos  e retorna apenas os caracteres base
 
 
 def normalizar_nome(nome):
     if not nome:
         return ""
-    return nome.strip().title()
+    return nome.strip().title() # title(primeira letra maiuscula)
 
 
 def normalizar_email(email):
     if not email:
         return ""
-    return email.strip().lower()
+    return email.strip().lower() # lower(deixa tudo em minusculo)
 
 
 def normalizar_cidade(cidade):
@@ -28,7 +28,7 @@ def normalizar_cidade(cidade):
 def transformar_cliente(cliente):
     return {
         "id": cliente["id"],
-        "nome": normalizar_nome(cliente.get("nome", "")),
+        "nome": normalizar_nome(cliente.get("nome", "")), # "" em caso de não existir o nome, retorna uma string vazia
         "email": normalizar_email(cliente.get("email", "")),
         "idade": cliente["idade"],
         "cidade": normalizar_cidade(cliente.get("cidade", "")),
