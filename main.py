@@ -1,16 +1,21 @@
-from dataprocessor.pipeline import executar_pipeline
+from dataprocessor.config import carregar_configuracao_padrao
+from dataprocessor.services.processamento import executar_processamento
 
 
 def main():
-    resultado = executar_pipeline(
-        "data/clientes.csv",
-        "data/transacoes.csv",
-        "data/config.json",
-    )
+    app_config = carregar_configuracao_padrao()
+    resultado = executar_processamento(app_config)
 
-    print("=== DataProcessor ===")
+    print("=== DataProcessor CLI ===")
     print(f"Clientes válidos: {len(resultado['clientes'])}")
+    print(f"Clientes inválidos: {len(resultado['clientes_invalidos'])}")
     print(f"Transações válidas: {len(resultado['transacoes'])}")
+    print(f"Transações inválidas: {len(resultado['transacoes_invalidas'])}")
+    media_idade = resultado["metricas"]["media_idade"]
+    if media_idade is None:
+        print("Média de idade: indisponível")
+    else:
+        print(f"Média de idade: {media_idade:.1f}")
     print(f"Total aprovado: R$ {resultado['metricas']['total_aprovado']:.2f}")
 
 
